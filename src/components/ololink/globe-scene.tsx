@@ -55,34 +55,67 @@ function curveForSegment(segment: Segment) {
 
 /* ---------------------------------------------------------------- Earth */
 
+/** Direction of the sun — chosen so the terminator crosses both regions. */
+export const SUN_DIR = new THREE.Vector3(...geoToVec(12, 168, 0)).normalize();
+
 function Earth() {
-  const texture = useLoader(THREE.TextureLoader, earthMap);
-  texture.colorSpace = THREE.SRGBColorSpace;
+  const [day, night, clouds, spec] = useLoader(THREE.TextureLoader, [
+    earthDay,
+    earthNight,
+    earthClouds,
+    earthSpec,
+  ]);
+  day.colorSpace = THREE.SRGBColorSpace;
+  night.colorSpace = THREE.SRGBColorSpace;
+
+  const cloudRef = useRef<THREE.Mesh>(null);
+  useFrame((_, d) => {
+    if (cloudRef.current) cloudRef.current.rotation.y += d * 0.004;
+  });
 
   return (
     <group>
+      {/* realistic surface: satellite albedo + city lights on the night side */}
       <mesh>
-        <sphereGeometry args={[1, 96, 96]} />
-        <meshStandardMaterial map={texture} color="#b9d4ea" metalness={0.1} roughness={0.8} />
+        <sphereGeometry args={[1, 128, 128]} />
+        <meshStandardMaterial
+          map={day}
+          roughnessMap={spec}
+          metalness={0.06}
+          roughness={0.86}
+          color="#93a6b6"
+          emissiveMap={night}
+          emissive="#ffd9a0"
+          emissiveIntensity={0.35}
+        />
       </mesh>
-      {/* graticule */}
-      <mesh>
-        <sphereGeometry args={[1.001, 36, 18]} />
-        <meshBasicMaterial color={CYAN} wireframe transparent opacity={0.04} />
+      {/* cloud layer */}
+      <mesh ref={cloudRef} scale={1.006}>
+        <sphereGeometry args={[1, 96, 96]} />
+        <meshStandardMaterial
+          map={clouds}
+          alphaMap={clouds}
+          transparent
+          opacity={0.42}
+          depthWrite={false}
+          color="#dfe7ee"
+          roughness={1}
+        />
       </mesh>
       {/* inner atmosphere */}
       <mesh>
-        <sphereGeometry args={[1.015, 64, 64]} />
-        <meshBasicMaterial color={CYAN} transparent opacity={0.05} side={THREE.BackSide} />
+        <sphereGeometry args={[1.016, 64, 64]} />
+        <meshBasicMaterial color="#4a86c8" transparent opacity={0.07} side={THREE.BackSide} />
       </mesh>
       {/* outer halo */}
       <mesh>
-        <sphereGeometry args={[1.09, 64, 64]} />
-        <meshBasicMaterial color="#0ea5e9" transparent opacity={0.06} side={THREE.BackSide} />
+        <sphereGeometry args={[1.08, 64, 64]} />
+        <meshBasicMaterial color="#1d4e8f" transparent opacity={0.06} side={THREE.BackSide} />
       </mesh>
     </group>
   );
 }
+
 
 /* --------------------------------------------- orbital trajectory rings */
 /* Deliberately near-invisible: these are mechanics, not communication. */
