@@ -59,7 +59,7 @@ function curveForSegment(segment: Segment) {
 /* ---------------------------------------------------------------- Earth */
 
 /** Direction of the sun — chosen so the terminator crosses both regions. */
-export const SUN_DIR = new THREE.Vector3(...geoToVec(12, 168, 0)).normalize();
+export const SUN_DIR = new THREE.Vector3(...geoToVec(14, 178, 0)).normalize();
 
 function Earth() {
   const maps = useLoader(THREE.TextureLoader, [earthDay, earthNight, earthClouds, earthSpec]);
@@ -85,7 +85,7 @@ function Earth() {
           roughnessMap={spec}
           metalness={0.05}
           roughness={0.82}
-          color="#cdd8e2"
+          color="#e6eef5"
         />
       </mesh>
       {/* city lights — additive, masked to the night hemisphere only */}
@@ -960,7 +960,7 @@ function SceneContent({ state }: { state: OloLinkState }) {
       <ambientLight intensity={0.22} />
       <directionalLight
         position={[SUN_DIR.x * 6, SUN_DIR.y * 6, SUN_DIR.z * 6]}
-        intensity={2.35}
+        intensity={3.1}
         color="#fff6e8"
       />
       {/* faint night-side fill so the dark hemisphere stays readable */}
