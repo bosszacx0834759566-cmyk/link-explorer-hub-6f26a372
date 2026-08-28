@@ -166,22 +166,25 @@ function seg(id: string, from: string, to: string, tech: Tech): Segment {
 
 /** Every orchestrated path OloLink can choose from. */
 export const SEGMENTS: Segment[] = [
-  seg('s-sat1-gsth', 'sat-01', 'gs-th', 'OPTICAL'),
-  seg('s-sat2-gssg', 'sat-02', 'gs-sg', 'OPTICAL'),
-  seg('s-sat3-gseu', 'sat-03', 'gs-eu', 'OPTICAL'),
-  seg('s-sat1-haps1', 'sat-01', 'haps-01', 'FSO'),
-  seg('s-sat2-haps2', 'sat-02', 'haps-02', 'FSO'),
-  seg('s-haps1-drna', 'haps-01', 'drn-a', 'MICROWAVE'),
-  seg('s-haps2-drnb', 'haps-02', 'drn-b', 'MICROWAVE'),
-  seg('s-drna-gsth', 'drn-a', 'gs-th', 'RF'),
-  seg('s-drnb-gssg', 'drn-b', 'gs-sg', 'RF'),
-  seg('s-haps1-gsth', 'haps-01', 'gs-th', 'RF'),
+  // ---- Thailand operational region
+  seg('s-satth1-gsth', 'sat-th-1', 'gs-th', 'OPTICAL'),
+  seg('s-satth1-hapsth', 'sat-th-1', 'haps-th', 'FSO'),
+  seg('s-satth2-hapsth', 'sat-th-2', 'haps-th', 'FSO'),
+  seg('s-hapsth-drnth', 'haps-th', 'drn-th', 'MICROWAVE'),
+  seg('s-drnth-gsth', 'drn-th', 'gs-th', 'RF'),
+  seg('s-hapsth-gsth', 'haps-th', 'gs-th', 'RF'),
   seg('s-gsth-custh', 'gs-th', 'cus-th', 'FIBER'),
-  seg('s-gssg-cussg', 'gs-sg', 'cus-sg', 'FIBER'),
-  seg('s-gseu-cuseu', 'gs-eu', 'cus-eu', 'FIBER'),
-  seg('s-sat3-haps3', 'sat-03', 'haps-03', 'FSO'),
-  seg('s-sat4-gsus', 'sat-04', 'gs-us', 'OPTICAL'),
+
+  // ---- United States operational region
+  seg('s-satus1-gsus', 'sat-us-1', 'gs-us', 'OPTICAL'),
+  seg('s-satus1-hapsus', 'sat-us-1', 'haps-us', 'FSO'),
+  seg('s-satus2-hapsus', 'sat-us-2', 'haps-us', 'FSO'),
+  seg('s-hapsus-drnus', 'haps-us', 'drn-us', 'MICROWAVE'),
+  seg('s-drnus-gsus', 'drn-us', 'gs-us', 'RF'),
+  seg('s-hapsus-gsus', 'haps-us', 'gs-us', 'RF'),
+  seg('s-gsus-cusus', 'gs-us', 'cus-us', 'FIBER'),
 ];
+
 
 export interface ScenarioProfile {
   id: ScenarioId;
