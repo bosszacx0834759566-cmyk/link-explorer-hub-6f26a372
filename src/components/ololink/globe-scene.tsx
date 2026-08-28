@@ -1026,18 +1026,19 @@ function SceneContent({ state }: { state: OloLinkState }) {
 export function GlobeScene({ state }: { state: OloLinkState }) {
   return (
     <Canvas
-      camera={{ position: [-0.7, 0.9, -2.95], fov: 42 }}
+      /* framed over the Pacific so both Thailand and the United States are in view */
+      camera={{ position: [-2.807, 1.31, -0.123], fov: 42 }}
       dpr={[1, 2]}
       gl={{ antialias: true }}
       onPointerMissed={() => state.select(null)}
       className="!absolute inset-0"
     >
-      <color attach="background" args={['#05070e']} />
-      <fog attach="fog" args={['#05070e', 8, 24]} />
+      <color attach="background" args={['#000000']} />
       <SceneContent state={state} />
     </Canvas>
   );
 }
+
 
 export { routeSegments };
 export type { ScenarioProfile };
