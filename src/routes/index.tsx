@@ -39,7 +39,7 @@ function Explorer() {
   const state = useOloLink();
 
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-[#05070e] text-foreground">
+    <div className="relative h-screen w-full overflow-hidden bg-black text-foreground">
       {/* LEVEL 1 — spatial environment */}
       <div className="absolute inset-0">
         <Suspense
