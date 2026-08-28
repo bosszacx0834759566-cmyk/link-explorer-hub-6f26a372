@@ -216,20 +216,20 @@ export interface ScenarioProfile {
 
 const CLOUD_CELLS: WeatherCell[] = [
   { id: 'w1', name: 'Cloud deck TH-4', lat: 13, lon: 101, size: 0.16, severity: 46, kind: 'CLOUD' },
-  { id: 'w2', name: 'Cloud deck SG-2', lat: 2, lon: 104, size: 0.12, severity: 38, kind: 'CLOUD' },
+  { id: 'w2', name: 'Cloud deck US-2', lat: 40, lon: -104, size: 0.14, severity: 38, kind: 'CLOUD' },
 ];
 
 const RAIN_CELLS: WeatherCell[] = [
   { id: 'w1', name: 'Monsoon band TH', lat: 13.5, lon: 100.8, size: 0.2, severity: 74, kind: 'RAIN' },
-  { id: 'w2', name: 'Rain cell SG', lat: 1.8, lon: 103.6, size: 0.15, severity: 66, kind: 'RAIN' },
-  { id: 'w3', name: 'Cloud deck EU', lat: 49, lon: 9, size: 0.12, severity: 30, kind: 'CLOUD' },
+  { id: 'w2', name: 'Rain cell US-Front Range', lat: 39.6, lon: -105.2, size: 0.15, severity: 52, kind: 'RAIN' },
 ];
 
 const STORM_CELLS: WeatherCell[] = [
   { id: 'w1', name: 'Storm cell TH-9', lat: 13.6, lon: 100.6, size: 0.24, severity: 93, kind: 'STORM' },
-  { id: 'w2', name: 'Storm cell SG-5', lat: 1.6, lon: 103.7, size: 0.19, severity: 84, kind: 'STORM' },
+  { id: 'w2', name: 'Storm cell US-5', lat: 39.9, lon: -104.6, size: 0.19, severity: 68, kind: 'STORM' },
   { id: 'w3', name: 'Rain band APAC', lat: 8, lon: 102, size: 0.22, severity: 61, kind: 'RAIN' },
 ];
+
 
 export const SCENARIOS: Record<ScenarioId, ScenarioProfile> = {
   clear: {
