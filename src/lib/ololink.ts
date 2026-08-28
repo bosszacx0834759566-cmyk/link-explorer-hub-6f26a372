@@ -95,33 +95,32 @@ export const KIND_META: Record<AssetKind, { label: string; plural: string }> = {
 };
 
 export const ASSETS: Asset[] = [
-  // LEO constellation (orchestrated, not owned)
-  { id: 'sat-01', name: 'OL-SAT-01', kind: 'satellite', lat: 16, lon: 102, altKm: 550, role: 'Optical downlink', region: 'APAC', health: 'NOMINAL' },
-  { id: 'sat-02', name: 'OL-SAT-02', kind: 'satellite', lat: -4, lon: 118, altKm: 585, role: 'Capacity relay', region: 'APAC', health: 'NOMINAL' },
-  { id: 'sat-03', name: 'OL-SAT-03', kind: 'satellite', lat: 44, lon: 12, altKm: 610, role: 'Optical downlink', region: 'EMEA', health: 'NOMINAL' },
-  { id: 'sat-04', name: 'OL-SAT-04', kind: 'satellite', lat: 34, lon: -108, altKm: 540, role: 'Standby capacity', region: 'AMER', health: 'DEGRADED' },
+  // LEO constellation (orchestrated, not owned) — spread across realistic orbits
+  { id: 'sat-th-1', name: 'OL-SAT-01', kind: 'satellite', lat: 16, lon: 102, altKm: 550, role: 'Optical downlink (Thailand)', region: 'Thailand', health: 'NOMINAL' },
+  { id: 'sat-th-2', name: 'OL-SAT-02', kind: 'satellite', lat: 4, lon: 111, altKm: 585, role: 'Capacity relay (APAC)', region: 'Thailand', health: 'NOMINAL' },
+  { id: 'sat-us-1', name: 'OL-SAT-04', kind: 'satellite', lat: 38, lon: -106, altKm: 545, role: 'Optical downlink (United States)', region: 'United States', health: 'NOMINAL' },
+  { id: 'sat-us-2', name: 'OL-SAT-05', kind: 'satellite', lat: 27, lon: -95, altKm: 605, role: 'Capacity relay (AMER)', region: 'United States', health: 'DEGRADED' },
+  { id: 'sat-pac', name: 'OL-SAT-07', kind: 'satellite', lat: 22, lon: -158, altKm: 640, role: 'Trans-Pacific crosslink', region: 'Pacific', health: 'NOMINAL' },
+  { id: 'sat-atl', name: 'OL-SAT-09', kind: 'satellite', lat: -18, lon: -32, altKm: 700, role: 'Orbital standby', region: 'Atlantic', health: 'NOMINAL' },
+  { id: 'sat-ind', name: 'OL-SAT-11', kind: 'satellite', lat: 48, lon: 62, altKm: 675, role: 'Orbital standby', region: 'Eurasia', health: 'NOMINAL' },
 
-  // HAPS
-  { id: 'haps-01', name: 'HAPS-01', kind: 'haps', lat: 13.4, lon: 100.9, altKm: 18, role: 'Relay', region: 'Thailand', health: 'NOMINAL' },
-  { id: 'haps-02', name: 'HAPS-02', kind: 'haps', lat: 1.9, lon: 104.2, altKm: 20, role: 'Relay', region: 'Singapore', health: 'NOMINAL' },
-  { id: 'haps-03', name: 'HAPS-03', kind: 'haps', lat: 49.4, lon: 8.9, altKm: 19, role: 'Standby', region: 'Europe', health: 'NOMINAL' },
+  // HAPS — stratospheric, 18-20 km
+  { id: 'haps-th', name: 'HAPS-TH-01', kind: 'haps', lat: 14.1, lon: 100.9, altKm: 19, role: 'Stratospheric relay over Thailand', region: 'Thailand', health: 'NOMINAL' },
+  { id: 'haps-us', name: 'HAPS-US-01', kind: 'haps', lat: 39.2, lon: -104.4, altKm: 19.5, role: 'Stratospheric relay over United States', region: 'United States', health: 'NOMINAL' },
 
   // Relay drones
-  { id: 'drn-a', name: 'Drone Alpha', kind: 'drone', lat: 13.0, lon: 100.2, altKm: 4, role: 'Low-altitude relay', region: 'Thailand', health: 'NOMINAL' },
-  { id: 'drn-b', name: 'Drone Beta', kind: 'drone', lat: 1.5, lon: 103.2, altKm: 3, role: 'Low-altitude relay', region: 'Singapore', health: 'NOMINAL' },
-  { id: 'drn-c', name: 'Drone Gamma', kind: 'drone', lat: 50.4, lon: 8.1, altKm: 4, role: 'Standby', region: 'Europe', health: 'NOMINAL' },
+  { id: 'drn-th', name: 'Drone Alpha', kind: 'drone', lat: 13.4, lon: 100.2, altKm: 4, role: 'Low-altitude relay over Thailand', region: 'Thailand', health: 'NOMINAL' },
+  { id: 'drn-us', name: 'Drone Bravo', kind: 'drone', lat: 40.1, lon: -105.4, altKm: 4, role: 'Low-altitude relay over United States', region: 'United States', health: 'NOMINAL' },
 
   // Ground stations
-  { id: 'gs-sg', name: 'GS Singapore', kind: 'ground', lat: 1.35, lon: 103.82, altKm: 0, role: 'Primary gateway', region: 'Singapore', health: 'NOMINAL' },
-  { id: 'gs-th', name: 'GS Bangkok', kind: 'ground', lat: 13.75, lon: 100.52, altKm: 0, role: 'Gateway', region: 'Thailand', health: 'NOMINAL' },
-  { id: 'gs-eu', name: 'GS Frankfurt', kind: 'ground', lat: 50.11, lon: 8.68, altKm: 0, role: 'Gateway', region: 'Europe', health: 'NOMINAL' },
-  { id: 'gs-us', name: 'GS San Jose', kind: 'ground', lat: 37.34, lon: -121.89, altKm: 0, role: 'Gateway', region: 'Americas', health: 'NOMINAL' },
+  { id: 'gs-th', name: 'GS Bangkok', kind: 'ground', lat: 13.75, lon: 100.52, altKm: 0, role: 'Primary gateway', region: 'Thailand', health: 'NOMINAL' },
+  { id: 'gs-us', name: 'GS Denver', kind: 'ground', lat: 39.74, lon: -104.99, altKm: 0, role: 'Primary gateway', region: 'United States', health: 'NOMINAL' },
 
   // Customer networks
-  { id: 'cus-sg', name: 'SG Core Network', kind: 'customer', lat: 1.28, lon: 103.9, altKm: 0, role: 'Fiber handoff', region: 'Singapore', health: 'NOMINAL' },
-  { id: 'cus-th', name: 'TH Enterprise Edge', kind: 'customer', lat: 13.85, lon: 100.7, altKm: 0, role: 'Fiber handoff', region: 'Thailand', health: 'NOMINAL' },
-  { id: 'cus-eu', name: 'EU Data Corridor', kind: 'customer', lat: 50.2, lon: 8.5, altKm: 0, role: 'Fiber handoff', region: 'Europe', health: 'NOMINAL' },
+  { id: 'cus-th', name: 'TH Enterprise Edge', kind: 'customer', lat: 13.9, lon: 100.85, altKm: 0, role: 'Fiber handoff', region: 'Thailand', health: 'NOMINAL' },
+  { id: 'cus-us', name: 'US Metro Core', kind: 'customer', lat: 39.55, lon: -104.6, altKm: 0, role: 'Fiber handoff', region: 'United States', health: 'NOMINAL' },
 ];
+
 
 export const ASSET_BY_ID: Record<string, Asset> = Object.fromEntries(
   ASSETS.map((a) => [a.id, a])
