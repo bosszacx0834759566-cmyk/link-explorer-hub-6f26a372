@@ -5,7 +5,10 @@ import { Html, OrbitControls, Stars } from '@react-three/drei';
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 
-import earthMap from '@/assets/earth-map.jpg';
+import earthDay from '@/assets/earth_atmos_2048.jpg';
+import earthNight from '@/assets/earth_lights_2048.png';
+import earthClouds from '@/assets/earth_clouds_1024.png';
+import earthSpec from '@/assets/earth_specular_2048.jpg';
 import {
   ASSET_BY_ID,
   ASSETS,
@@ -59,12 +62,11 @@ function curveForSegment(segment: Segment) {
 export const SUN_DIR = new THREE.Vector3(...geoToVec(12, 168, 0)).normalize();
 
 function Earth() {
-  const [day, night, clouds, spec] = useLoader(THREE.TextureLoader, [
-    earthDay,
-    earthNight,
-    earthClouds,
-    earthSpec,
-  ]);
+  const maps = useLoader(THREE.TextureLoader, [earthDay, earthNight, earthClouds, earthSpec]);
+  const day = maps[0]!;
+  const night = maps[1]!;
+  const clouds = maps[2]!;
+  const spec = maps[3]!;
   day.colorSpace = THREE.SRGBColorSpace;
   night.colorSpace = THREE.SRGBColorSpace;
 
