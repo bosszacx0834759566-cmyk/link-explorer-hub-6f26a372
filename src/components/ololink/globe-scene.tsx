@@ -5,7 +5,10 @@ import { Html, OrbitControls, Stars } from '@react-three/drei';
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 
-import earthMap from '@/assets/earth-map.jpg';
+import earthDay from '@/assets/earth_atmos_2048.jpg';
+import earthNight from '@/assets/earth_lights_2048.png';
+import earthClouds from '@/assets/earth_clouds_1024.png';
+import earthSpec from '@/assets/earth_specular_2048.jpg';
 import {
   ASSET_BY_ID,
   ASSETS,
@@ -55,34 +58,88 @@ function curveForSegment(segment: Segment) {
 
 /* ---------------------------------------------------------------- Earth */
 
+/** Direction of the sun — chosen so the terminator crosses both regions. */
+export const SUN_DIR = new THREE.Vector3(...geoToVec(14, 178, 0)).normalize();
+
 function Earth() {
-  const texture = useLoader(THREE.TextureLoader, earthMap);
-  texture.colorSpace = THREE.SRGBColorSpace;
+  const maps = useLoader(THREE.TextureLoader, [earthDay, earthNight, earthClouds, earthSpec]);
+  const day = maps[0]!;
+  const night = maps[1]!;
+  const clouds = maps[2]!;
+  const spec = maps[3]!;
+  day.colorSpace = THREE.SRGBColorSpace;
+  night.colorSpace = THREE.SRGBColorSpace;
+
+  const cloudRef = useRef<THREE.Mesh>(null);
+  useFrame((_, d) => {
+    if (cloudRef.current) cloudRef.current.rotation.y += d * 0.004;
+  });
 
   return (
     <group>
+      {/* realistic surface: satellite albedo, sun-lit */}
       <mesh>
-        <sphereGeometry args={[1, 96, 96]} />
-        <meshStandardMaterial map={texture} color="#b9d4ea" metalness={0.1} roughness={0.8} />
+        <sphereGeometry args={[1, 128, 128]} />
+        <meshStandardMaterial
+          map={day}
+          roughnessMap={spec}
+          metalness={0.05}
+          roughness={0.82}
+          color="#e6eef5"
+        />
       </mesh>
-      {/* graticule */}
-      <mesh>
-        <sphereGeometry args={[1.001, 36, 18]} />
-        <meshBasicMaterial color={CYAN} wireframe transparent opacity={0.04} />
+      {/* city lights — additive, masked to the night hemisphere only */}
+      <mesh scale={1.001}>
+        <sphereGeometry args={[1, 96, 96]} />
+        <shaderMaterial
+          transparent
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+          uniforms={{ uMap: { value: night }, uSun: { value: SUN_DIR } }}
+          vertexShader={`
+            varying vec2 vUv; varying vec3 vN;
+            void main() {
+              vUv = uv; vN = normalize(mat3(modelMatrix) * normal);
+              gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }`}
+          fragmentShader={`
+            uniform sampler2D uMap; uniform vec3 uSun;
+            varying vec2 vUv; varying vec3 vN;
+            void main() {
+              float nightMask = smoothstep(0.12, -0.22, dot(vN, normalize(uSun)));
+              vec3 c = texture2D(uMap, vUv).rgb;
+              gl_FragColor = vec4(c * vec3(1.0, 0.82, 0.55) * nightMask * 0.9, 1.0);
+            }`}
+        />
+      </mesh>
+
+      {/* cloud layer */}
+      <mesh ref={cloudRef} scale={1.006}>
+        <sphereGeometry args={[1, 96, 96]} />
+        <meshStandardMaterial
+          map={clouds}
+          alphaMap={clouds}
+          transparent
+          opacity={0.42}
+          depthWrite={false}
+          color="#dfe7ee"
+          roughness={1}
+        />
       </mesh>
       {/* inner atmosphere */}
       <mesh>
-        <sphereGeometry args={[1.015, 64, 64]} />
-        <meshBasicMaterial color={CYAN} transparent opacity={0.05} side={THREE.BackSide} />
+        <sphereGeometry args={[1.016, 64, 64]} />
+        <meshBasicMaterial color="#4a86c8" transparent opacity={0.07} side={THREE.BackSide} />
       </mesh>
       {/* outer halo */}
       <mesh>
-        <sphereGeometry args={[1.09, 64, 64]} />
-        <meshBasicMaterial color="#0ea5e9" transparent opacity={0.06} side={THREE.BackSide} />
+        <sphereGeometry args={[1.08, 64, 64]} />
+        <meshBasicMaterial color="#1d4e8f" transparent opacity={0.06} side={THREE.BackSide} />
       </mesh>
     </group>
   );
 }
+
 
 /* --------------------------------------------- orbital trajectory rings */
 /* Deliberately near-invisible: these are mechanics, not communication. */
@@ -899,10 +956,21 @@ function SceneContent({ state }: { state: OloLinkState }) {
 
   return (
     <>
-      <ambientLight intensity={1.05} />
-      <directionalLight position={[-2, 2, -5]} intensity={1.6} color="#dbeafe" />
-      <directionalLight position={[-5, -2, -4]} intensity={0.35} color="#1e40af" />
-      <Stars radius={90} depth={40} count={2600} factor={3.2} saturation={0} fade speed={0.4} />
+      {/* sun: gives a visible day / night terminator across both regions */}
+      <ambientLight intensity={0.22} />
+      <directionalLight
+        position={[SUN_DIR.x * 6, SUN_DIR.y * 6, SUN_DIR.z * 6]}
+        intensity={3.1}
+        color="#fff6e8"
+      />
+      {/* faint night-side fill so the dark hemisphere stays readable */}
+      <directionalLight
+        position={[-SUN_DIR.x * 6, -SUN_DIR.y * 6, -SUN_DIR.z * 6]}
+        intensity={0.16}
+        color="#2b4a72"
+      />
+      <Stars radius={90} depth={40} count={2200} factor={2.6} saturation={0} fade speed={0.3} />
+
 
       <Suspense fallback={null}>
         <Earth />
@@ -980,18 +1048,19 @@ function SceneContent({ state }: { state: OloLinkState }) {
 export function GlobeScene({ state }: { state: OloLinkState }) {
   return (
     <Canvas
-      camera={{ position: [-0.7, 0.9, -2.95], fov: 42 }}
+      /* framed over the Pacific so both Thailand and the United States are in view */
+      camera={{ position: [-2.807, 1.31, -0.123], fov: 42 }}
       dpr={[1, 2]}
       gl={{ antialias: true }}
       onPointerMissed={() => state.select(null)}
       className="!absolute inset-0"
     >
-      <color attach="background" args={['#05070e']} />
-      <fog attach="fog" args={['#05070e', 8, 24]} />
+      <color attach="background" args={['#000000']} />
       <SceneContent state={state} />
     </Canvas>
   );
 }
+
 
 export { routeSegments };
 export type { ScenarioProfile };

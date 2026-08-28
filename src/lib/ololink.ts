@@ -95,33 +95,32 @@ export const KIND_META: Record<AssetKind, { label: string; plural: string }> = {
 };
 
 export const ASSETS: Asset[] = [
-  // LEO constellation (orchestrated, not owned)
-  { id: 'sat-01', name: 'OL-SAT-01', kind: 'satellite', lat: 16, lon: 102, altKm: 550, role: 'Optical downlink', region: 'APAC', health: 'NOMINAL' },
-  { id: 'sat-02', name: 'OL-SAT-02', kind: 'satellite', lat: -4, lon: 118, altKm: 585, role: 'Capacity relay', region: 'APAC', health: 'NOMINAL' },
-  { id: 'sat-03', name: 'OL-SAT-03', kind: 'satellite', lat: 44, lon: 12, altKm: 610, role: 'Optical downlink', region: 'EMEA', health: 'NOMINAL' },
-  { id: 'sat-04', name: 'OL-SAT-04', kind: 'satellite', lat: 34, lon: -108, altKm: 540, role: 'Standby capacity', region: 'AMER', health: 'DEGRADED' },
+  // LEO constellation (orchestrated, not owned) — spread across realistic orbits
+  { id: 'sat-th-1', name: 'OL-SAT-01', kind: 'satellite', lat: 16, lon: 102, altKm: 550, role: 'Optical downlink (Thailand)', region: 'Thailand', health: 'NOMINAL' },
+  { id: 'sat-th-2', name: 'OL-SAT-02', kind: 'satellite', lat: 4, lon: 111, altKm: 585, role: 'Capacity relay (APAC)', region: 'Thailand', health: 'NOMINAL' },
+  { id: 'sat-us-1', name: 'OL-SAT-04', kind: 'satellite', lat: 38, lon: -106, altKm: 545, role: 'Optical downlink (United States)', region: 'United States', health: 'NOMINAL' },
+  { id: 'sat-us-2', name: 'OL-SAT-05', kind: 'satellite', lat: 27, lon: -95, altKm: 605, role: 'Capacity relay (AMER)', region: 'United States', health: 'DEGRADED' },
+  { id: 'sat-pac', name: 'OL-SAT-07', kind: 'satellite', lat: 22, lon: -158, altKm: 640, role: 'Trans-Pacific crosslink', region: 'Pacific', health: 'NOMINAL' },
+  { id: 'sat-atl', name: 'OL-SAT-09', kind: 'satellite', lat: -18, lon: -32, altKm: 700, role: 'Orbital standby', region: 'Atlantic', health: 'NOMINAL' },
+  { id: 'sat-ind', name: 'OL-SAT-11', kind: 'satellite', lat: 48, lon: 62, altKm: 675, role: 'Orbital standby', region: 'Eurasia', health: 'NOMINAL' },
 
-  // HAPS
-  { id: 'haps-01', name: 'HAPS-01', kind: 'haps', lat: 13.4, lon: 100.9, altKm: 18, role: 'Relay', region: 'Thailand', health: 'NOMINAL' },
-  { id: 'haps-02', name: 'HAPS-02', kind: 'haps', lat: 1.9, lon: 104.2, altKm: 20, role: 'Relay', region: 'Singapore', health: 'NOMINAL' },
-  { id: 'haps-03', name: 'HAPS-03', kind: 'haps', lat: 49.4, lon: 8.9, altKm: 19, role: 'Standby', region: 'Europe', health: 'NOMINAL' },
+  // HAPS — stratospheric, 18-20 km
+  { id: 'haps-th', name: 'HAPS-TH-01', kind: 'haps', lat: 14.1, lon: 100.9, altKm: 19, role: 'Stratospheric relay over Thailand', region: 'Thailand', health: 'NOMINAL' },
+  { id: 'haps-us', name: 'HAPS-US-01', kind: 'haps', lat: 39.2, lon: -104.4, altKm: 19.5, role: 'Stratospheric relay over United States', region: 'United States', health: 'NOMINAL' },
 
   // Relay drones
-  { id: 'drn-a', name: 'Drone Alpha', kind: 'drone', lat: 13.0, lon: 100.2, altKm: 4, role: 'Low-altitude relay', region: 'Thailand', health: 'NOMINAL' },
-  { id: 'drn-b', name: 'Drone Beta', kind: 'drone', lat: 1.5, lon: 103.2, altKm: 3, role: 'Low-altitude relay', region: 'Singapore', health: 'NOMINAL' },
-  { id: 'drn-c', name: 'Drone Gamma', kind: 'drone', lat: 50.4, lon: 8.1, altKm: 4, role: 'Standby', region: 'Europe', health: 'NOMINAL' },
+  { id: 'drn-th', name: 'Drone Alpha', kind: 'drone', lat: 13.4, lon: 100.2, altKm: 4, role: 'Low-altitude relay over Thailand', region: 'Thailand', health: 'NOMINAL' },
+  { id: 'drn-us', name: 'Drone Bravo', kind: 'drone', lat: 40.1, lon: -105.4, altKm: 4, role: 'Low-altitude relay over United States', region: 'United States', health: 'NOMINAL' },
 
   // Ground stations
-  { id: 'gs-sg', name: 'GS Singapore', kind: 'ground', lat: 1.35, lon: 103.82, altKm: 0, role: 'Primary gateway', region: 'Singapore', health: 'NOMINAL' },
-  { id: 'gs-th', name: 'GS Bangkok', kind: 'ground', lat: 13.75, lon: 100.52, altKm: 0, role: 'Gateway', region: 'Thailand', health: 'NOMINAL' },
-  { id: 'gs-eu', name: 'GS Frankfurt', kind: 'ground', lat: 50.11, lon: 8.68, altKm: 0, role: 'Gateway', region: 'Europe', health: 'NOMINAL' },
-  { id: 'gs-us', name: 'GS San Jose', kind: 'ground', lat: 37.34, lon: -121.89, altKm: 0, role: 'Gateway', region: 'Americas', health: 'NOMINAL' },
+  { id: 'gs-th', name: 'GS Bangkok', kind: 'ground', lat: 13.75, lon: 100.52, altKm: 0, role: 'Primary gateway', region: 'Thailand', health: 'NOMINAL' },
+  { id: 'gs-us', name: 'GS Denver', kind: 'ground', lat: 39.74, lon: -104.99, altKm: 0, role: 'Primary gateway', region: 'United States', health: 'NOMINAL' },
 
   // Customer networks
-  { id: 'cus-sg', name: 'SG Core Network', kind: 'customer', lat: 1.28, lon: 103.9, altKm: 0, role: 'Fiber handoff', region: 'Singapore', health: 'NOMINAL' },
-  { id: 'cus-th', name: 'TH Enterprise Edge', kind: 'customer', lat: 13.85, lon: 100.7, altKm: 0, role: 'Fiber handoff', region: 'Thailand', health: 'NOMINAL' },
-  { id: 'cus-eu', name: 'EU Data Corridor', kind: 'customer', lat: 50.2, lon: 8.5, altKm: 0, role: 'Fiber handoff', region: 'Europe', health: 'NOMINAL' },
+  { id: 'cus-th', name: 'TH Enterprise Edge', kind: 'customer', lat: 13.9, lon: 100.85, altKm: 0, role: 'Fiber handoff', region: 'Thailand', health: 'NOMINAL' },
+  { id: 'cus-us', name: 'US Metro Core', kind: 'customer', lat: 39.55, lon: -104.6, altKm: 0, role: 'Fiber handoff', region: 'United States', health: 'NOMINAL' },
 ];
+
 
 export const ASSET_BY_ID: Record<string, Asset> = Object.fromEntries(
   ASSETS.map((a) => [a.id, a])
@@ -167,22 +166,25 @@ function seg(id: string, from: string, to: string, tech: Tech): Segment {
 
 /** Every orchestrated path OloLink can choose from. */
 export const SEGMENTS: Segment[] = [
-  seg('s-sat1-gsth', 'sat-01', 'gs-th', 'OPTICAL'),
-  seg('s-sat2-gssg', 'sat-02', 'gs-sg', 'OPTICAL'),
-  seg('s-sat3-gseu', 'sat-03', 'gs-eu', 'OPTICAL'),
-  seg('s-sat1-haps1', 'sat-01', 'haps-01', 'FSO'),
-  seg('s-sat2-haps2', 'sat-02', 'haps-02', 'FSO'),
-  seg('s-haps1-drna', 'haps-01', 'drn-a', 'MICROWAVE'),
-  seg('s-haps2-drnb', 'haps-02', 'drn-b', 'MICROWAVE'),
-  seg('s-drna-gsth', 'drn-a', 'gs-th', 'RF'),
-  seg('s-drnb-gssg', 'drn-b', 'gs-sg', 'RF'),
-  seg('s-haps1-gsth', 'haps-01', 'gs-th', 'RF'),
+  // ---- Thailand operational region
+  seg('s-satth1-gsth', 'sat-th-1', 'gs-th', 'OPTICAL'),
+  seg('s-satth1-hapsth', 'sat-th-1', 'haps-th', 'FSO'),
+  seg('s-satth2-hapsth', 'sat-th-2', 'haps-th', 'FSO'),
+  seg('s-hapsth-drnth', 'haps-th', 'drn-th', 'MICROWAVE'),
+  seg('s-drnth-gsth', 'drn-th', 'gs-th', 'RF'),
+  seg('s-hapsth-gsth', 'haps-th', 'gs-th', 'RF'),
   seg('s-gsth-custh', 'gs-th', 'cus-th', 'FIBER'),
-  seg('s-gssg-cussg', 'gs-sg', 'cus-sg', 'FIBER'),
-  seg('s-gseu-cuseu', 'gs-eu', 'cus-eu', 'FIBER'),
-  seg('s-sat3-haps3', 'sat-03', 'haps-03', 'FSO'),
-  seg('s-sat4-gsus', 'sat-04', 'gs-us', 'OPTICAL'),
+
+  // ---- United States operational region
+  seg('s-satus1-gsus', 'sat-us-1', 'gs-us', 'OPTICAL'),
+  seg('s-satus1-hapsus', 'sat-us-1', 'haps-us', 'FSO'),
+  seg('s-satus2-hapsus', 'sat-us-2', 'haps-us', 'FSO'),
+  seg('s-hapsus-drnus', 'haps-us', 'drn-us', 'MICROWAVE'),
+  seg('s-drnus-gsus', 'drn-us', 'gs-us', 'RF'),
+  seg('s-hapsus-gsus', 'haps-us', 'gs-us', 'RF'),
+  seg('s-gsus-cusus', 'gs-us', 'cus-us', 'FIBER'),
 ];
+
 
 export interface ScenarioProfile {
   id: ScenarioId;
@@ -214,20 +216,20 @@ export interface ScenarioProfile {
 
 const CLOUD_CELLS: WeatherCell[] = [
   { id: 'w1', name: 'Cloud deck TH-4', lat: 13, lon: 101, size: 0.16, severity: 46, kind: 'CLOUD' },
-  { id: 'w2', name: 'Cloud deck SG-2', lat: 2, lon: 104, size: 0.12, severity: 38, kind: 'CLOUD' },
+  { id: 'w2', name: 'Cloud deck US-2', lat: 40, lon: -104, size: 0.14, severity: 38, kind: 'CLOUD' },
 ];
 
 const RAIN_CELLS: WeatherCell[] = [
   { id: 'w1', name: 'Monsoon band TH', lat: 13.5, lon: 100.8, size: 0.2, severity: 74, kind: 'RAIN' },
-  { id: 'w2', name: 'Rain cell SG', lat: 1.8, lon: 103.6, size: 0.15, severity: 66, kind: 'RAIN' },
-  { id: 'w3', name: 'Cloud deck EU', lat: 49, lon: 9, size: 0.12, severity: 30, kind: 'CLOUD' },
+  { id: 'w2', name: 'Rain cell US-Front Range', lat: 39.6, lon: -105.2, size: 0.15, severity: 52, kind: 'RAIN' },
 ];
 
 const STORM_CELLS: WeatherCell[] = [
   { id: 'w1', name: 'Storm cell TH-9', lat: 13.6, lon: 100.6, size: 0.24, severity: 93, kind: 'STORM' },
-  { id: 'w2', name: 'Storm cell SG-5', lat: 1.6, lon: 103.7, size: 0.19, severity: 84, kind: 'STORM' },
+  { id: 'w2', name: 'Storm cell US-5', lat: 39.9, lon: -104.6, size: 0.19, severity: 68, kind: 'STORM' },
   { id: 'w3', name: 'Rain band APAC', lat: 8, lon: 102, size: 0.22, severity: 61, kind: 'RAIN' },
 ];
+
 
 export const SCENARIOS: Record<ScenarioId, ScenarioProfile> = {
   clear: {
@@ -239,7 +241,7 @@ export const SCENARIOS: Record<ScenarioId, ScenarioProfile> = {
     networkHealth: 'NOMINAL',
     systemMode: 'DIRECT OPTICAL',
     telemetry: { bandwidth: 10.0, latency: 14, packetLoss: 0.02, signal: 98, availability: 99.98 },
-    route: ['sat-01', 'gs-th', 'cus-th'],
+    route: ['sat-th-1', 'gs-th', 'cus-th'],
     blockedTech: [],
     weather: [],
     ai: {
@@ -259,12 +261,12 @@ export const SCENARIOS: Record<ScenarioId, ScenarioProfile> = {
     networkHealth: 'STABLE',
     systemMode: 'ADAPTIVE RELAY',
     telemetry: { bandwidth: 6.4, latency: 38, packetLoss: 0.9, signal: 71, availability: 97.2 },
-    route: ['sat-01', 'haps-01', 'drn-a', 'gs-th', 'cus-th'],
+    route: ['sat-th-1', 'haps-th', 'drn-th', 'gs-th', 'cus-th'],
     blockedTech: ['OPTICAL'],
     weather: CLOUD_CELLS,
     ai: {
       analysis: ['Cloud layer detected at 12 km', 'Direct laser link unavailable', 'FSO viable above cloud deck'],
-      recommendation: ['Reroute via HAPS-01', 'Drone Alpha microwave hop', 'Terminate at GS Bangkok'],
+      recommendation: ['Reroute via HAPS-TH-01', 'Drone Alpha microwave hop', 'Terminate at GS Bangkok'],
       confidence: 94,
       action: 'REROUTE VIA HAPS',
     },
@@ -279,17 +281,17 @@ export const SCENARIOS: Record<ScenarioId, ScenarioProfile> = {
     networkHealth: 'STABLE',
     systemMode: 'RF BACKBONE',
     telemetry: { bandwidth: 3.1, latency: 62, packetLoss: 2.4, signal: 54, availability: 92.4 },
-    route: ['sat-02', 'haps-02', 'drn-b', 'gs-sg', 'cus-sg'],
+    route: ['sat-us-1', 'haps-us', 'drn-us', 'gs-us', 'cus-us'],
     blockedTech: ['OPTICAL', 'FSO'],
     weather: RAIN_CELLS,
     ai: {
       analysis: ['Rain attenuation 11.2 dB/km', 'Optical and FSO unavailable', 'Microwave margin acceptable'],
-      recommendation: ['Shift traffic to HAPS-02', 'Drone Beta microwave hop', 'Terminate at GS Singapore'],
+      recommendation: ['Shift traffic to HAPS-US-01', 'Drone Bravo microwave hop', 'Terminate at GS Denver'],
       confidence: 96,
       action: 'ENGAGE MICROWAVE',
     },
     alerts: [
-      { id: 'a1', level: 'WARN', text: 'Optical layer unavailable across APAC' },
+      { id: 'a1', level: 'WARN', text: 'Optical layer unavailable across Thailand and United States' },
       { id: 'a2', level: 'INFO', text: 'Bandwidth ceiling reduced to 3.1 Gbps' },
     ],
   },
@@ -302,12 +304,12 @@ export const SCENARIOS: Record<ScenarioId, ScenarioProfile> = {
     networkHealth: 'DEGRADED',
     systemMode: 'ADAPTIVE ROUTING',
     telemetry: { bandwidth: 1.62, latency: 85, packetLoss: 4.8, signal: 38, availability: 86.1 },
-    route: ['sat-02', 'haps-01', 'drn-a', 'gs-th', 'cus-th'],
+    route: ['sat-th-2', 'haps-th', 'drn-th', 'gs-th', 'cus-th'],
     blockedTech: ['OPTICAL', 'FSO'],
     weather: STORM_CELLS,
     ai: {
       analysis: ['Severe storm detected over Thailand', 'All optical links unavailable', 'Route recalculating every 30 s'],
-      recommendation: ['HAPS-01', 'Relay Drone Alpha', 'Microwave link', 'Ground Station Bangkok'],
+      recommendation: ['HAPS-TH-01', 'Relay Drone Alpha', 'Microwave link', 'Ground Station Bangkok'],
       confidence: 96,
       action: 'AUTO REROUTE',
     },
