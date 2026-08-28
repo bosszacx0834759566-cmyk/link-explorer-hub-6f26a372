@@ -237,7 +237,7 @@ export function Dock({ state }: { state: OloLinkState }) {
         )}
       </AnimatePresence>
 
-      <div className="flex items-center gap-1 rounded-xl border border-white/[0.07] bg-[#05070e]/80 px-2 py-1.5 shadow-[0_12px_44px_-14px_rgba(0,0,0,0.9)] backdrop-blur-xl">
+      <div className="flex items-center gap-1 rounded-xl border border-white/[0.07] bg-black/80 px-2 py-1.5 shadow-[0_12px_44px_-14px_rgba(0,0,0,0.9)] backdrop-blur-xl">
         <DockButton label="Search" active={pop === 'search'} onClick={() => toggle('search')}>
           <Search className="h-4 w-4" strokeWidth={1.6} />
         </DockButton>
