@@ -957,7 +957,7 @@ function SceneContent({ state }: { state: OloLinkState }) {
   return (
     <>
       {/* sun: gives a visible day / night terminator across both regions */}
-      <ambientLight intensity={0.16} />
+      <ambientLight intensity={0.22} />
       <directionalLight
         position={[SUN_DIR.x * 6, SUN_DIR.y * 6, SUN_DIR.z * 6]}
         intensity={2.35}
