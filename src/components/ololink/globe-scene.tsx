@@ -934,10 +934,21 @@ function SceneContent({ state }: { state: OloLinkState }) {
 
   return (
     <>
-      <ambientLight intensity={1.05} />
-      <directionalLight position={[-2, 2, -5]} intensity={1.6} color="#dbeafe" />
-      <directionalLight position={[-5, -2, -4]} intensity={0.35} color="#1e40af" />
-      <Stars radius={90} depth={40} count={2600} factor={3.2} saturation={0} fade speed={0.4} />
+      {/* sun: gives a visible day / night terminator across both regions */}
+      <ambientLight intensity={0.16} />
+      <directionalLight
+        position={[SUN_DIR.x * 6, SUN_DIR.y * 6, SUN_DIR.z * 6]}
+        intensity={2.35}
+        color="#fff6e8"
+      />
+      {/* faint night-side fill so the dark hemisphere stays readable */}
+      <directionalLight
+        position={[-SUN_DIR.x * 6, -SUN_DIR.y * 6, -SUN_DIR.z * 6]}
+        intensity={0.16}
+        color="#2b4a72"
+      />
+      <Stars radius={90} depth={40} count={2200} factor={2.6} saturation={0} fade speed={0.3} />
+
 
       <Suspense fallback={null}>
         <Earth />
